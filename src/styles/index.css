@@ -1,0 +1,100 @@
+/* Tailwind base imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+/* Base layer - global resets and defaults */
+@layer base {
+  body {
+    @apply font-body bg-off-white text-text-primary;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+/* Component layer - reusable component classes */
+@layer components {
+  /* Button variants */
+  .btn-primary {
+    @apply bg-green-dark text-white rounded-xl px-6 py-3 font-medium transition-colors duration-card;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-green-hover;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-sage-muted text-green-dark rounded-xl px-6 py-3 font-medium transition-colors duration-card;
+  }
+  
+  .btn-secondary:hover {
+    @apply border-sage bg-sage bg-opacity-5;
+  }
+  
+  /* Input fields */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-border-soft rounded-lg font-body text-text-primary placeholder-text-muted transition-colors duration-card;
+  }
+  
+  .input-field:focus {
+    @apply outline-none border-sage ring-2 ring-sage ring-opacity-20;
+  }
+  
+  /* Product card */
+  .product-card {
+    @apply bg-card-white rounded-lg shadow-card overflow-hidden transition-shadow duration-card cursor-pointer;
+  }
+  
+  .product-card:hover {
+    @apply shadow-card-hover;
+  }
+  
+  /* Category card */
+  .category-card {
+    @apply rounded-lg p-6 text-center transition-all duration-card cursor-pointer;
+  }
+  
+  .category-card:hover {
+    @apply shadow-card-hover;
+  }
+  
+  /* Tag styles */
+  .tag-free {
+    @apply inline-block px-3 py-1 bg-sage text-white text-sm font-medium rounded-full;
+  }
+  
+  .tag-paid {
+    @apply inline-block px-3 py-1 bg-green-dark text-white text-sm font-medium rounded-full;
+  }
+  
+  .tag-category {
+    @apply inline-block px-3 py-1 bg-sage-muted bg-opacity-20 text-sage text-xs font-medium rounded-full;
+  }
+  
+  /* Badge styles */
+  .badge-verified {
+    @apply inline-flex items-center gap-1 px-2 py-1 bg-verified-bg text-verified-text text-xs font-medium rounded border border-sage-muted;
+  }
+  
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Section spacing */
+  .section-spacing {
+    @apply py-12 md:py-16;
+  }
+}
+
+/* Utility layer - custom utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
