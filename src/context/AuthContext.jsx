@@ -122,6 +122,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user: authState.user,
+    token: localStorage.getItem('authToken'),
     isAuthenticated: authState.isAuthenticated,
     isLoading: authState.isLoading,
     login,

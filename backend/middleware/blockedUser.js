@@ -1,25 +1,36 @@
+const User = require('../models/user');
+
 /**
- * Blocked User Middleware
- * Denies all protected actions for blocked users
- * Must be used after authenticate middleware
+ * Airtight Blocked User Middleware
+ * Checks the LIVE database status to ensure immediate enforcement
  */
-const checkBlocked = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({
-      success: false,
-      message: 'Authentication required'
-    });
-  }
+const checkBlocked = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
 
-  if (req.user.isBlocked) {
-    return res.status(403).json({
-      success: false,
-      message: 'Your account has been restricted. Please contact support.',
-      isBlocked: true
-    });
-  }
+    // Fetch the most recent status from the database
+    const user = await User.findById(req.user._id).select('isBlocked');
 
-  next();
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Immediate enforcement
+    if (user.isBlocked) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been restricted. Please contact support.',
+        isBlocked: true
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error('CheckBlocked Middleware Error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
 };
 
 module.exports = checkBlocked;

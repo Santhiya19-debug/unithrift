@@ -31,7 +31,7 @@ const authenticate = async (req, res, next) => {
     }
 
     // Fetch user from database
-    const user = await User.findById(decoded.userId).select('-passwordHash');
+   const user = await User.findById(decoded.userId || decoded.id).select('-passwordHash');
     
     if (!user) {
       return res.status(401).json({

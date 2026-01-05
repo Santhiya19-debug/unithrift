@@ -1,37 +1,29 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+// REMOVE the || 'hardcoded-string'. We want it to fail if .env is missing 
+// so you know there's a configuration problem immediately.
+const JWT_SECRET = process.env.JWT_SECRET; 
 const JWT_EXPIRY = process.env.JWT_EXPIRY || '7d';
 
-/**
- * Generate JWT token
- */
 const generateToken = (user) => {
+  if (!JWT_SECRET) throw new Error("JWT_SECRET is missing in .env!");
+  
   const payload = {
-    userId: user._id.toString(),
+    userId: user._id.toString(), // This is the key we must match
     email: user.email,
-    role: user.role,
-    isVerified: user.isVerified,
-    isBlocked: user.isBlocked
+    role: user.role
   };
 
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRY
-  });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRY });
 };
 
-/**
- * Verify JWT token
- */
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (error) {
+    console.error("JWT Verification Error:", error.message);
     return null;
   }
 };
 
-module.exports = {
-  generateToken,
-  verifyToken
-};
+module.exports = { generateToken, verifyToken };

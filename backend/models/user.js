@@ -32,18 +32,21 @@ const userSchema = new mongoose.Schema({
   isBlocked: {
     type: Boolean,
     default: false
-  }
+  },
+  // STEP 1 SUCCESS: Wishlist is now INSIDE the schema
+  wishlist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product'
+  }]
 }, {
   timestamps: true
 });
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  // Only hash if password is modified
   if (!this.isModified('passwordHash')) {
     return next();
   }
-
   try {
     const salt = await bcrypt.genSalt(10);
     this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
@@ -58,7 +61,7 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.passwordHash);
 };
 
-// Method to get safe user object (no password)
+// Method to get safe user object
 userSchema.methods.toSafeObject = function() {
   return {
     id: this._id,
@@ -67,6 +70,8 @@ userSchema.methods.toSafeObject = function() {
     role: this.role,
     isVerified: this.isVerified,
     isBlocked: this.isBlocked,
+    // Include wishlist in safe object so frontend can use it
+    wishlist: this.wishlist, 
     createdAt: this.createdAt
   };
 };

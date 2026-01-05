@@ -1,0 +1,52 @@
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
+/**
+ * Fetch all products for moderation (including removed ones)
+ */
+export async function getAllProductsAdmin(token) {
+  const res = await fetch(`${API_BASE}/api/admin/products`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || 'Failed to fetch products');
+  return result.products;
+}
+
+/**
+ * Soft-remove a product
+ */
+export async function removeProductAdmin(id, token) {
+  const res = await fetch(`${API_BASE}/api/admin/products/${id}/remove`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || 'Failed to remove product');
+  return result;
+}
+
+/**
+ * Restore a removed product
+ */
+export async function restoreProductAdmin(id, token) {
+  const res = await fetch(`${API_BASE}/api/admin/products/${id}/restore`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || 'Failed to restore product');
+  return result;
+}
+
+/**
+ * Block a user
+ */
+export async function blockUserAdmin(userId, token) {
+  const res = await fetch(`${API_BASE}/api/admin/users/${userId}/block`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  const result = await res.json();
+  if (!res.ok) throw new Error(result.message || 'Failed to block user');
+  return result;
+}

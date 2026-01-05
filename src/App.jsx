@@ -11,6 +11,10 @@ import VerificationBanner from './components/auth/VerificationBanner';
 // Public pages
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
+import Browse from './pages/Browse';
+import About from './pages/About';    // ADDED
+import Contact from './pages/Contact'; // ADDED
+import Privacy from './pages/Privacy'; // ADDED
 
 // Auth pages
 import Login from './pages/Login';
@@ -24,6 +28,7 @@ import BlockedAccount from './pages/auth/BlockedAccount';
 import Wishlist from './pages/Wishlist';
 import SellProduct from './pages/SellProduct';
 import Profile from './pages/Profile';
+import EditProduct from './pages/EditProduct'; 
 
 // Admin pages
 import AdminDashboard from './pages/admin/Dashboard';
@@ -67,6 +72,11 @@ function App() {
                   {/* Public Routes */}
                   <Route path="/" element={<Home />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/browse" element={<Browse />} />
+                  <Route path="/about" element={<About />} />       {/* ADDED */}
+                  <Route path="/contact" element={<Contact />} />   {/* ADDED */}
+                  <Route path="/report" element={<Contact />} />    {/* ADDED - Reuses Contact UI */}
+                  <Route path="/privacy" element={<Privacy />} />   {/* ADDED */}
                   
                   {/* Protected Routes */}
                   <Route path="/wishlist" element={
@@ -79,6 +89,13 @@ function App() {
                       <SellProduct />
                     </ProtectedRoute>
                   } />
+                  
+                  <Route path="/edit/:id" element={
+                    <ProtectedRoute>
+                      <EditProduct />
+                    </ProtectedRoute>
+                  } />
+
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />
