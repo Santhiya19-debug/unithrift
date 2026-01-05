@@ -1,178 +1,334 @@
-# UniThrift - Campus Marketplace
+🟢 UniThrift
 
-A closed-campus marketplace platform for buying and selling pre-loved items within university communities.
+UniThrift is a campus-exclusive marketplace platform designed for students and faculty to buy, sell, reuse, and exchange items safely within their university ecosystem.
 
-## 🎨 Design Philosophy
+The platform enforces institutional email verification, admin moderation, and secure authentication to ensure trust, safety, and scalability for real-world usage.
 
-- **Minimal & Premium**: Sage green + off-white color palette
-- **Editorial Typography**: Playfair Display + Inter
-- **Calm User Experience**: No flashy animations, just subtle interactions
-- **Scalability-First**: Built for Phase 2 expansion without refactoring
+📌 Key Objectives
 
-## 🚀 Tech Stack
+Enable safe peer-to-peer trading within a university
 
-- **React 18** with Vite
-- **Tailwind CSS** (config-driven styling)
-- **React Router** for navigation
-- **Mock data** (backend-ready architecture)
+Prevent external or anonymous access
 
-## 📁 Project Structure
+Ensure admin oversight and moderation
 
-```
-unithrift/
-├── src/
-│   ├── components/
-│   │   ├── common/          # Reusable UI components
-│   │   ├── layout/          # Header, Footer
-│   │   └── marketplace/     # Product cards, filters, search
-│   ├── pages/               # Route pages
-│   ├── data/                # Mock data
-│   ├── styles/              # Tailwind CSS + custom classes
-│   ├── App.jsx              # Route configuration
-│   └── main.jsx             # Entry point
-├── index.html
-├── tailwind.config.js       # Design system configuration
-└── package.json
-```
+Scale reliably for thousands of users
 
-## 🛠️ Installation
+Maintain a clean, minimal, professional UI
 
-```bash
-# Install dependencies
-npm install
+🧱 Architecture Overview
 
-# Run development server
-npm run dev
+UniThrift follows a modern full-stack architecture:
 
-# Build for production
-npm run build
+Frontend (React + Vite + Tailwind)
+        ↓
+Backend (Node.js + Express)
+        ↓
+Database (MongoDB Atlas)
+        ↓
+External Services (Email, Image Storage)
 
-# Preview production build
-npm run preview
-```
+🖥️ Tech Stack
+Frontend
 
-## 🎯 Features (Phase 1)
+React (Vite)
 
-### Core Functionality
-- ✅ Browse marketplace with product grid
-- ✅ Search products by name
-- ✅ Filter by category, price (free/paid), location
-- ✅ Product detail pages with image gallery
-- ✅ Wishlist management
-- ✅ Sell/List products with image upload
-- ✅ User profile with listings management
-- ✅ Authentication UI (Login/Signup)
+Tailwind CSS
 
-### Design Features
-- ✅ Responsive layout (mobile-first)
-- ✅ Sage green + off-white color system
-- ✅ Playfair Display + Inter typography
-- ✅ Subtle hover effects (no scaling/bouncing)
-- ✅ Verified seller badges
-- ✅ Free/Paid tags
-- ✅ Category browsing
+React Router
 
-## 🎨 Color Palette
+Context API (Auth management)
 
-```css
-Off-white Background:  #F6F7F4
-Card White:            #FFFFFF
-Primary Sage:          #7A8F6A
-Muted Sage:            #9EAD94
-Dark Green (CTA):      #5F6F52
-Text Primary:          #2F2F2F
-Text Secondary:        #6B7280
-Text Muted:            #9CA3AF
-Border Soft:           #E5E7EB
-```
+Backend
 
-## 📝 Typography
+Node.js
 
-- **Headings**: Playfair Display (serif)
-- **Body/UI**: Inter (sans-serif)
+Express.js
 
-## 🔧 Customization
+MongoDB (Atlas)
 
-All design tokens are centralized in `tailwind.config.js`:
-- Colors
-- Fonts
-- Shadows
-- Spacing
+Mongoose ODM
 
-To change the color scheme, update the `colors` object in the config file.
+JWT Authentication
 
-## 🚧 Phase 2 Readiness
+bcrypt (password hashing)
 
-The codebase is structured for easy Phase 2 expansion:
-- Component-based architecture
-- Service layer pattern (API-ready)
-- Mock data separation
-- No hardcoded business logic in UI
-- Modular routing structure
+Infrastructure
 
-### Planned Phase 2 Features
-- Chat/messaging system
-- Ratings & reviews
-- Notifications
-- Analytics dashboard
-- Advanced filters
-- Payment integration (if needed)
+MongoDB Atlas (free tier supported)
 
-## 📦 Backend Integration
+SMTP (Gmail App Password or similar)
 
-Frontend is ready for backend integration. Expected API structure:
+Environment-based configuration
 
-```javascript
-// Product endpoints
-GET    /api/products
-GET    /api/products/:id
-POST   /api/products
-PUT    /api/products/:id
+🔐 Authentication & Authorization
+Email Restrictions (Strict)
+
+Only institutional emails are allowed:
+
+Students
+
+letters[.letters]*YYYY@vitstudent.ac.in
+
+
+Examples:
+
+alex2024@vitstudent.ac.in
+
+alex.s2023@vitstudent.ac.in
+
+Faculty
+
+*@artvip.ac.in
+
+
+All other domains are rejected.
+
+Auth States
+
+Unauthenticated
+
+Authenticated (Not Verified)
+
+Authenticated (Verified)
+
+Blocked
+
+Admin
+
+Security Features
+
+Passwords hashed using bcrypt (10 rounds)
+
+JWT-based authentication
+
+Token expiration enforced
+
+Role-based route protection
+
+Blocked users denied server-side
+
+Email verification mandatory
+
+👤 User Roles
+User (Student / Faculty)
+
+Sign up with institutional email
+
+Verify email
+
+Create product listings
+
+View own profile & listings
+
+Add/remove wishlist items
+
+Edit or delete own products
+
+Admin
+
+View all users
+
+Verify accounts
+
+Block / unblock users
+
+Moderate listings
+
+Handle reports
+
+📦 Core Features
+Marketplace
+
+Product listing (title, description, category, condition, price, location)
+
+Free and paid listings
+
+Public browse feed
+
+Product detail view
+
+Seller visibility control
+
+Profile
+
+View user information
+
+View user’s listings
+
+Manage listings (edit / delete)
+
+Account settings
+
+Wishlist
+
+Add/remove products to wishlist
+
+User-specific storage
+
+Persistent across sessions
+
+Admin Panel
+
+User management
+
+Role enforcement
+
+Moderation tools
+
+Safety controls
+
+🖼️ Image Handling (Design Intent)
+
+Images are handled via a separate upload pipeline:
+
+Frontend uploads images
+
+Backend validates metadata
+
+URLs are stored in MongoDB
+
+Images are served via external storage (Cloudinary / S3-style service)
+
+Images are never stored directly inside MongoDB.
+
+🗄️ Database Structure
+Database
+unithrift
+
+Collections
+users
+{
+  email: String,
+  passwordHash: String,
+  role: "user" | "admin",
+  isVerified: Boolean,
+  isBlocked: Boolean,
+  createdAt: Date
+}
+
+authtokens
+{
+  userId: ObjectId,
+  tokenHash: String,
+  type: "EMAIL_VERIFICATION" | "PASSWORD_RESET",
+  expiresAt: Date,
+  used: Boolean
+}
+
+products
+{
+  title: String,
+  description: String,
+  price: Number,
+  isFree: Boolean,
+  category: String,
+  condition: String,
+  location: String,
+  images: [String],
+  sellerId: ObjectId,
+  status: "active" | "removed",
+  createdAt: Date
+}
+
+wishlist
+{
+  userId: ObjectId,
+  productId: ObjectId,
+  createdAt: Date
+}
+
+🌐 API Overview
+Auth
+
+POST /api/auth/signup
+
+GET /api/auth/verify-email
+
+POST /api/auth/login
+
+GET /api/auth/me
+
+POST /api/auth/forgot-password
+
+POST /api/auth/reset-password
+
+POST /api/auth/logout
+
+Products
+
+POST /api/products
+
+GET /api/products
+
+GET /api/products/my
+
+GET /api/products/:id
+
+PUT /api/products/:id
+
 DELETE /api/products/:id
 
-// Auth endpoints
-POST   /api/auth/login
-POST   /api/auth/signup
-POST   /api/auth/verify-email
+Wishlist
 
-// User endpoints
-GET    /api/users/:id
-PUT    /api/users/:id
+POST /api/wishlist
 
-// Wishlist endpoints
-GET    /api/wishlist
-POST   /api/wishlist
+GET /api/wishlist
+
 DELETE /api/wishlist/:productId
-```
 
-## 🎯 Development Guidelines
+(Admin routes are protected and role-restricted.)
 
-### Code Quality
-- Keep components small and focused
-- Use semantic HTML
-- Follow accessibility best practices
-- Write meaningful commit messages
+⚙️ Environment Setup
+Backend .env
+PORT=5000
+MONGO_URI=your_mongodb_atlas_uri
+JWT_SECRET=your_long_random_secret
+SMTP_EMAIL=your_email
+SMTP_PASSWORD=your_app_password
+FRONTEND_URL=http://localhost:5173
 
-### Styling Rules
-- Use Tailwind utility classes
-- Define reusable classes in `index.css`
-- Avoid inline styles
-- Keep animations subtle (150-200ms transitions)
+Frontend .env
+VITE_API_BASE_URL=http://localhost:5000/api
 
-### Component Standards
-- Props should be documented
-- Use meaningful variable names
-- Avoid deep nesting (max 3 levels)
-- Handle loading/error states
+▶️ Running the Application
+Backend
+cd backend
+npm install
+npm run dev
 
-## 📄 License
+Frontend
+cd frontend
+npm install
+npm run dev
 
-This project is built for educational purposes as part of a campus marketplace initiative.
+🧪 Development Notes
 
-## 🤝 Contributing
+Frontend and backend are decoupled
 
-Phase 1 is feature-complete. Phase 2 contributions will follow after backend integration.
+Backend fails fast on DB connection errors
 
----
+Frontend relies entirely on API responses
 
-**Built with care for campus communities.**
+Mock data was used initially and later replaced with real APIs
+
+Codebase is structured for future scalability
+
+🚀 Future Enhancements
+
+Chat between buyer and seller
+
+Report system for listings
+
+Advanced admin analytics
+
+Push/email notifications
+
+Pagination & search optimization
+
+Mobile-first refinements
+
+📜 License
+
+This project is built for educational and institutional use.
+Commercial use requires permission from the author(s)
