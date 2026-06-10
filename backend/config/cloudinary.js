@@ -1,5 +1,8 @@
 const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multerStorageCloudinary = require('multer-storage-cloudinary');
+
+const CloudinaryStorage =
+  multerStorageCloudinary.CloudinaryStorage || multerStorageCloudinary;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -8,12 +11,14 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: cloudinary,
   params: {
     folder: 'unithrift_products',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    transformation: [{ width: 1000, height: 1000, crop: 'limit' }]
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
   }
 });
 
-module.exports = { cloudinary, storage };
+module.exports = {
+  cloudinary,
+  storage
+};
